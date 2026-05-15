@@ -9,8 +9,6 @@
 
 SmartCharge AI uses IBM Bob's real-time intelligence to optimize EV charging by balancing solar generation, grid pricing, and battery needs—reducing costs by 40% while preventing grid strain during peak hours.
 
-![SmartCharge AI Dashboard](docs/images/dashboard-preview.png)
-
 ---
 
 ## 🎯 The Problem
@@ -60,7 +58,7 @@ SmartCharge AI deploys **IBM Bob as an autonomous decision engine** that:
          ▼
 ┌─────────────────┐
 │   Frontend UI   │  React + Vite + Tailwind
-│   (Port 5173)   │  Real-time WebSocket updates
+│   (Port 3000)   │  Real-time WebSocket updates
 └─────────────────┘
 ```
 
@@ -86,7 +84,7 @@ SmartCharge AI deploys **IBM Bob as an autonomous decision engine** that:
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-team/smartcharge-ai.git
+git clone https://github.com/sidharth-1212/smartcharge-ai-ibm-bob.git
 cd smartcharge-ai
 ```
 
@@ -116,7 +114,7 @@ docker-compose down
 
 ### 4. Access the Application
 
-- **Frontend Dashboard:** http://localhost:5173
+- **Frontend Dashboard:** http://localhost:3000
 - **Backend API Docs:** http://localhost:8000/docs
 - **Simulator Output:** http://localhost:8001/health
 
@@ -248,19 +246,6 @@ pip install -r requirements.txt
 
 # Run simulator
 python simulator.py
-```
-
-### Running Tests
-
-```bash
-# Backend tests
-cd backend
-pytest --cov=app --cov-report=html
-
-# Frontend tests
-cd frontend
-npm test
-```
 
 ---
 
@@ -314,20 +299,6 @@ npm test
 
 Visit our live demo: [https://smartcharge-ai-demo.vercel.app](https://smartcharge-ai-demo.vercel.app)
 
-### Demo Video
-
-Watch our 3-minute demo video: [YouTube Link](https://youtube.com/...)
-
-### Demo Script
-
-1. **Show Problem:** EV charging during expensive peak hours
-2. **Introduce Solution:** IBM Bob analyzing real-time telemetry
-3. **Live Dashboard:** Watch Bob make decisions every 5 seconds
-4. **Show Reasoning:** Bob explains why each decision was made
-5. **Display Results:** 40% cost savings, 60% renewable energy
-
----
-
 ## 📚 Documentation
 
 - **[Quick Start Guide](../QUICK_START_GUIDE.md)** - Get up and running in 15 minutes
@@ -362,9 +333,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Event:** lablab.ai IBM Bob Hackathon 2026
 
-**Team:** [Your Team Name]
+**Team:** ArchiTech Systems
 
-**Submission Date:** [Date]
+**Submission Date:** 16/05/2026
 
 ### Deliverables
 
@@ -381,16 +352,16 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - **IBM Bob Team:** For creating an incredible conversational AI platform
 - **lablab.ai:** For organizing this hackathon
-- **Our Team:** [Team member names and roles]
+- **Solo Dev:** Sidharth Krishnakumar
 
 ---
 
 ## 📞 Contact
 
-**Project Lead:** [Name]
-- Email: [email@example.com]
-- LinkedIn: [LinkedIn URL]
-- GitHub: [GitHub profile]
+**Project Lead:** Sidharth Krishnakumar
+- Email: sidharthkrishnakumar12@gmail.com
+- LinkedIn: https://www.linkedin.com/in/sidharth-krish/
+- GitHub: https://github.com/sidharth-1212/
 
 **Project Website:** [Website URL]
 

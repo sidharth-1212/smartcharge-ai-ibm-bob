@@ -282,7 +282,7 @@ ECO_MODE will utilize 85% renewable energy while charging to 80% in
 ## 🎬 Demo Script (3 Minutes)
 
 ### Opening (30 seconds)
-"Hi, I'm [Name] from [Team]. We built SmartCharge AI - an intelligent EV charging system powered by IBM Bob that saves consumers 40% on electricity costs while reducing grid strain."
+"Hi, I'm Sidharth from ArchiTech Systems. We built SmartCharge AI - an intelligent EV charging system powered by IBM Bob that saves consumers 40% on electricity costs while reducing grid strain."
 
 ### Problem (30 seconds)
 "26 million EV owners are losing $500 per year by charging at the wrong times. They charge during expensive peak hours, waste free solar energy during the day, and contribute to grid instability. Traditional chargers are dumb - they don't know when to charge."
@@ -339,9 +339,7 @@ ECO_MODE will utilize 85% renewable energy while charging to 80% in
 
 **lablab.ai:** For organizing this hackathon and providing a platform to showcase innovative AI applications.
 
-**Our Team:** [Team member names and roles]
-
-**Advisors:** [Any mentors or advisors who helped]
+**Solo Dev:** Sidharth Krishnakumar
 
 ---
 
@@ -353,32 +351,23 @@ ECO_MODE will utilize 85% renewable energy while charging to 80% in
 - **Quick Start Guide:** [`QUICK_START_GUIDE.md`](QUICK_START_GUIDE.md)
 
 ### Code Repository
-- **GitHub:** [Repository URL]
-- **Live Demo:** [Demo URL]
-- **API Docs:** [Swagger/OpenAPI URL]
-
-### Presentation Materials
-- **Pitch Deck:** [`presentation/PITCH_DECK.pdf`](presentation/PITCH_DECK.pdf)
-- **Demo Video:** [Video URL]
-- **Screenshots:** [`presentation/slides/`](presentation/slides/)
+- **GitHub:** [\[Repository URL\]](https://github.com/sidharth-1212/smartcharge-ai-ibm-bob)
+- **Live Demo:** [\[Demo URL\]](https://smartcharge-ai-demo.vercel.app/)
 
 ### IBM Bob Integration
 - **Session Exports:** [`ibm-bob-reports/`](ibm-bob-reports/)
 - **Integration Guide:** [`docs/IBM_BOB_INTEGRATION.md`](docs/IBM_BOB_INTEGRATION.md)
-- **Decision Logs:** [`ibm-bob-reports/decision-logs/`](ibm-bob-reports/decision-logs/)
 
 ---
 
 ## 📧 Contact Information
 
-**Team Lead:** [Name]
-- Email: [email@example.com]
-- LinkedIn: [LinkedIn URL]
-- GitHub: [GitHub profile]
+**Team Lead:** Sidharth Krishnakumar
+- Email: sidharthkrishnakumar12@gmail.com
+- LinkedIn: https://www.linkedin.com/in/sidharth-krish/
+- GitHub: https://github.com/sidharth-1212/
 
-**Project Website:** [Website URL]
-
-**Demo Access:** [Demo credentials if needed]
+**Project Website:** [\[Website URL\]](https://smartcharge-ai-demo.vercel.app/)
 
 ---
 
