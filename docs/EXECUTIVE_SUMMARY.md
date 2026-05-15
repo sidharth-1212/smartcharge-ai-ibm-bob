@@ -13,7 +13,7 @@
 
 **Hackathon:** lablab.ai IBM Bob Hackathon 2026
 
-**Submission Date:** [Date]
+**Submission Date:** 16/05/2026
 
 ---
 
@@ -356,7 +356,6 @@ ECO_MODE will utilize 85% renewable energy while charging to 80% in
 
 ### IBM Bob Integration
 - **Session Exports:** [`ibm-bob-reports/`](ibm-bob-reports/)
-- **Integration Guide:** [`docs/IBM_BOB_INTEGRATION.md`](docs/IBM_BOB_INTEGRATION.md)
 
 ---
 
