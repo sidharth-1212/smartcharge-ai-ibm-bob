@@ -39,7 +39,7 @@ const Dashboard = () => {
             {decisionError && `Decisions: ${decisionError}`}
           </p>
           <p className="text-xs text-gray-400 mt-2">
-            Make sure the backend server is running on http://localhost:8000
+            Make sure the backend server is running
           </p>
         </div>
       )}
