@@ -16,6 +16,10 @@ export const getLatestTelemetry = async () => {
     const response = await api.get('/api/telemetry/latest');
     return response.data;
   } catch (error) {
+    // Silently handle empty database 404s
+    if (error.response && error.response.status === 404) {
+      return null; 
+    }
     console.error('Error fetching latest telemetry:', error);
     throw error;
   }

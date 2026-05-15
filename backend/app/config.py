@@ -3,87 +3,74 @@ Configuration management for SmartCharge AI Backend
 Loads environment variables and provides typed configuration objects
 """
 
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 from pydantic import Field, validator
 from typing import List, Optional
 import os
-
 
 class Settings(BaseSettings):
     """Application settings loaded from environment variables"""
     
     # IBM Bob API Configuration
-    ibm_bob_api_key: str = Field(..., env="IBM_BOB_API_KEY")
-    ibm_bob_api_url: str = Field(
-        default="https://api.watsonx.ai/v1/bob",
-        env="IBM_BOB_API_URL"
-    )
-    ibm_bob_project_id: Optional[str] = Field(default=None, env="IBM_BOB_PROJECT_ID")
-    ibm_bob_model_id: str = Field(
-        default="ibm/granite-13b-chat-v2",
-        env="IBM_BOB_MODEL_ID"
-    )
+    ibm_bob_api_key: str = Field(...)
+    ibm_bob_api_url: str = Field(default="https://api.watsonx.ai/v1/bob")
+    ibm_bob_project_id: Optional[str] = Field(default=None)
+    ibm_bob_model_id: str = Field(default="ibm/granite-13b-chat-v2")
     
     # Database Configuration
-    database_url: str = Field(..., env="DATABASE_URL")
-    database_pool_size: int = Field(default=20, env="DATABASE_POOL_SIZE")
-    database_max_overflow: int = Field(default=10, env="DATABASE_MAX_OVERFLOW")
+    database_url: str = Field(...)
+    database_pool_size: int = Field(default=20)
+    database_max_overflow: int = Field(default=10)
     
     # Redis Configuration (optional for demo)
-    redis_url: Optional[str] = Field(default=None, env="REDIS_URL")
-    redis_cache_ttl: int = Field(default=300, env="REDIS_CACHE_TTL")
-    redis_enabled: bool = Field(default=True, env="REDIS_ENABLED")
+    redis_url: Optional[str] = Field(default=None)
+    redis_cache_ttl: int = Field(default=300)
+    redis_enabled: bool = Field(default=True)
     
     # Application Settings
-    app_name: str = Field(default="SmartCharge AI", env="APP_NAME")
-    app_version: str = Field(default="1.0.0", env="APP_VERSION")
-    debug: bool = Field(default=False, env="DEBUG")
-    log_level: str = Field(default="INFO", env="LOG_LEVEL")
-    environment: str = Field(default="development", env="ENVIRONMENT")
+    app_name: str = Field(default="SmartCharge AI")
+    app_version: str = Field(default="1.0.0")
+    debug: bool = Field(default=False)
+    log_level: str = Field(default="INFO")
+    environment: str = Field(default="development")
     
     # Security
-    secret_key: str = Field(..., env="SECRET_KEY")
-    jwt_algorithm: str = Field(default="HS256", env="JWT_ALGORITHM")
-    jwt_expiration_minutes: int = Field(default=1440, env="JWT_EXPIRATION_MINUTES")
+    secret_key: str = Field(...)
+    jwt_algorithm: str = Field(default="HS256")
+    jwt_expiration_minutes: int = Field(default=1440)
     
     # CORS Settings
-    cors_origins: str = Field(
-        default="http://localhost:5173,http://localhost:3000",
-        env="CORS_ORIGINS"
-    )
-    cors_allow_credentials: bool = Field(default=True, env="CORS_ALLOW_CREDENTIALS")
+    cors_origins: str = Field(default="http://localhost:5173,http://localhost:3000")
+    cors_allow_credentials: bool = Field(default=True)
     
     # API Rate Limiting
-    rate_limit_per_minute: int = Field(default=60, env="RATE_LIMIT_PER_MINUTE")
-    rate_limit_per_hour: int = Field(default=1000, env="RATE_LIMIT_PER_HOUR")
+    rate_limit_per_minute: int = Field(default=60)
+    rate_limit_per_hour: int = Field(default=1000)
     
     # Telemetry Settings
-    telemetry_interval_seconds: int = Field(default=5, env="TELEMETRY_INTERVAL_SECONDS")
-    telemetry_batch_size: int = Field(default=100, env="TELEMETRY_BATCH_SIZE")
+    telemetry_interval_seconds: int = Field(default=5)
+    telemetry_batch_size: int = Field(default=100)
     
     # Charging Modes
-    fast_charge_power_kw: float = Field(default=11.0, env="FAST_CHARGE_POWER_KW")
-    eco_mode_power_kw: float = Field(default=3.5, env="ECO_MODE_POWER_KW")
-    pause_power_kw: float = Field(default=0.0, env="PAUSE_POWER_KW")
+    fast_charge_power_kw: float = Field(default=11.0)
+    eco_mode_power_kw: float = Field(default=3.5)
+    pause_power_kw: float = Field(default=0.0)
     
     # Decision Engine Settings
-    decision_confidence_threshold: float = Field(
-        default=0.7,
-        env="DECISION_CONFIDENCE_THRESHOLD"
-    )
-    max_decision_retries: int = Field(default=3, env="MAX_DECISION_RETRIES")
-    decision_timeout_seconds: int = Field(default=10, env="DECISION_TIMEOUT_SECONDS")
+    decision_confidence_threshold: float = Field(default=0.7)
+    max_decision_retries: int = Field(default=3)
+    decision_timeout_seconds: int = Field(default=10)
     
     # WebSocket Settings
-    ws_heartbeat_interval: int = Field(default=30, env="WS_HEARTBEAT_INTERVAL")
-    ws_max_connections: int = Field(default=1000, env="WS_MAX_CONNECTIONS")
+    ws_heartbeat_interval: int = Field(default=30)
+    ws_max_connections: int = Field(default=1000)
     
     # Monitoring & Logging
-    sentry_dsn: str = Field(default="", env="SENTRY_DSN")
-    datadog_api_key: str = Field(default="", env="DATADOG_API_KEY")
-    log_file_path: str = Field(default="logs/smartcharge.log", env="LOG_FILE_PATH")
-    log_rotation_size_mb: int = Field(default=100, env="LOG_ROTATION_SIZE_MB")
-    log_retention_days: int = Field(default=30, env="LOG_RETENTION_DAYS")
+    sentry_dsn: str = Field(default="")
+    datadog_api_key: str = Field(default="")
+    log_file_path: str = Field(default="logs/smartcharge.log")
+    log_rotation_size_mb: int = Field(default=100)
+    log_retention_days: int = Field(default=30)
     
     @validator("cors_origins", pre=True)
     def parse_cors_origins(cls, v):
@@ -109,22 +96,22 @@ class Settings(BaseSettings):
         if v_lower not in valid_envs:
             raise ValueError(f"Environment must be one of {valid_envs}")
         return v_lower
-    
-    class Config:
-        env_file = ".env"
-        env_file_encoding = "utf-8"
-        case_sensitive = False
 
+    # This replaces the old 'class Config:' block
+    model_config = SettingsConfigDict(
+        env_file=os.path.join(os.path.dirname(os.path.dirname(__file__)), ".env"),
+        env_file_encoding="utf-8", 
+        case_sensitive=False,
+        extra="ignore"
+    )
 
 # Global settings instance
-settings = Settings()
-
+settings: Settings = Settings()
 
 # Helper functions
 def get_database_url() -> str:
     """Get the database URL for SQLAlchemy"""
     return settings.database_url
-
 
 def get_redis_url() -> Optional[str]:
     """Get the Redis URL (returns None if Redis is disabled)"""
@@ -132,28 +119,23 @@ def get_redis_url() -> Optional[str]:
         return None
     return settings.redis_url
 
-
 def is_redis_enabled() -> bool:
     """Check if Redis caching is enabled"""
     return settings.redis_enabled and bool(settings.redis_url)
-
 
 def is_production() -> bool:
     """Check if running in production environment"""
     return settings.environment == "production"
 
-
 def is_debug_mode() -> bool:
     """Check if debug mode is enabled"""
     return settings.debug
-
 
 def get_cors_origins() -> List[str]:
     """Get list of allowed CORS origins"""
     if isinstance(settings.cors_origins, list):
         return settings.cors_origins
     return [origin.strip() for origin in settings.cors_origins.split(",")]
-
 
 # IBM Bob specific helpers
 def get_bob_headers() -> dict:
@@ -164,7 +146,6 @@ def get_bob_headers() -> dict:
         "Accept": "application/json"
     }
 
-
 def get_bob_api_endpoint(path: str = "") -> str:
     """Construct full IBM Bob API endpoint URL"""
     base_url = settings.ibm_bob_api_url.rstrip("/")
@@ -172,7 +153,6 @@ def get_bob_api_endpoint(path: str = "") -> str:
         path = path.lstrip("/")
         return f"{base_url}/{path}"
     return base_url
-
 
 # Charging mode configuration
 CHARGING_MODES = {
@@ -193,9 +173,6 @@ CHARGING_MODES = {
     }
 }
 
-
 def get_charging_mode_config(mode: str) -> dict:
     """Get configuration for a specific charging mode"""
     return CHARGING_MODES.get(mode.upper(), CHARGING_MODES["ECO_MODE"])
-
-# Made with Bob
