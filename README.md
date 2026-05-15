@@ -363,7 +363,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - LinkedIn: https://www.linkedin.com/in/sidharth-krish/
 - GitHub: https://github.com/sidharth-1212/
 
-**Project Website:** [Website URL]
+**Project Website:** https://smartcharge-ai-demo.up.railway.app/
 
 ---
 
