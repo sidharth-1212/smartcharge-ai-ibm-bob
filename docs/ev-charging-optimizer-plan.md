@@ -123,9 +123,7 @@ ev-charging-optimizer/
 │   └── kubernetes/                    # K8s manifests (optional)
 │
 └── presentation/                      # Pitch deck materials
-    ├── PITCH_DECK.pdf                 # Final presentation
-    ├── slides/                        # Individual slide exports
-    └── assets/                        # Images, diagrams, logos
+    └──  slides/                        # Slide exports
 ```
 
 ---
@@ -1127,7 +1125,7 @@ and costing only $0.35/hour. Fast charging would cost $1.21/hour."
 - Professional pitch deck
 - Compelling demo video
 - Clear communication of value
-- Strong team presentation
+- Strong presentation
 
 ---
 
