@@ -1,0 +1,158 @@
+# SmartCharge AI - Docker Compose Configuration
+# IBM Bob Hackathon 2026
+
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: smartcharge-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: smartcharge_db
+      POSTGRES_USER: smartcharge
+      POSTGRES_PASSWORD: smartcharge_password_change_in_production
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale=en_US.UTF-8"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./deployment/init-db.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - smartcharge-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U smartcharge -d smartcharge_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: smartcharge-redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes --requirepass smartcharge_redis_password
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - smartcharge-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Telemetry Simulator
+  simulator:
+    build:
+      context: ./simulator
+      dockerfile: Dockerfile
+    container_name: smartcharge-simulator
+    restart: unless-stopped
+    environment:
+      - BACKEND_URL=http://backend:8000
+      - TELEMETRY_INTERVAL=5
+      - LOG_LEVEL=INFO
+    ports:
+      - "8001:8001"
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - smartcharge-network
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8001/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  # FastAPI Backend
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: smartcharge-backend
+    restart: unless-stopped
+    environment:
+      # Database
+      - DATABASE_URL=postgresql://smartcharge:smartcharge_password_change_in_production@postgres:5432/smartcharge_db
+      
+      # Redis
+      - REDIS_URL=redis://:smartcharge_redis_password@redis:6379/0
+      
+      # IBM Bob API (set these in .env file)
+      - IBM_BOB_API_KEY=${IBM_BOB_API_KEY}
+      - IBM_BOB_API_URL=${IBM_BOB_API_URL:-https://api.watsonx.ai/v1/bob}
+      - IBM_BOB_PROJECT_ID=${IBM_BOB_PROJECT_ID}
+      
+      # Application
+      - DEBUG=True
+      - LOG_LEVEL=INFO
+      - CORS_ORIGINS=http://localhost:5173,http://localhost:3000
+      - SECRET_KEY=${SECRET_KEY:-change-this-secret-key-in-production}
+      
+      # WebSocket
+      - WS_HEARTBEAT_INTERVAL=30
+      - WS_MAX_CONNECTIONS=1000
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - smartcharge-network
+    volumes:
+      - ./backend:/app
+      - backend_logs:/app/logs
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # React Frontend (Development)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+      target: development
+    container_name: smartcharge-frontend
+    restart: unless-stopped
+    environment:
+      - VITE_API_URL=http://localhost:8000
+      - VITE_WS_URL=ws://localhost:8000/ws
+      - VITE_APP_NAME=SmartCharge AI
+      - NODE_ENV=development
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    networks:
+      - smartcharge-network
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    stdin_open: true
+    tty: true
+
+networks:
+  smartcharge-network:
+    driver: bridge
+    name: smartcharge-network
+
+volumes:
+  postgres_data:
+    name: smartcharge-postgres-data
+  redis_data:
+    name: smartcharge-redis-data
+  backend_logs:
+    name: smartcharge-backend-logs
+
+# Made with Bob
