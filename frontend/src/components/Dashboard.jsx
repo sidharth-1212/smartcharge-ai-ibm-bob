@@ -93,7 +93,7 @@ const Dashboard = () => {
           </span>
           <span className="flex items-center gap-2">
             <span className={`w-2 h-2 rounded-full ${decisionError ? 'bg-red-500' : 'bg-green-500'} animate-pulse`}></span>
-            Bob: {decisionError ? 'Disconnected' : 'Connected'}
+            AI: {decisionError ? 'Disconnected' : 'Connected'}
           </span>
           <span>
             Last update: {new Date().toLocaleTimeString()}

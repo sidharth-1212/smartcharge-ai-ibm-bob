@@ -106,7 +106,7 @@ const Analytics = () => {
           <li className="flex items-start gap-2">
             <span className="text-green-400 mt-1">✓</span>
             <span>
-              Bob is optimizing your charging to maximize solar usage and minimize costs.
+              AI is optimizing your charging to maximize solar usage and minimize costs.
             </span>
           </li>
           <li className="flex items-start gap-2">

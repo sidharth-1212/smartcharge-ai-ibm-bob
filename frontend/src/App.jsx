@@ -15,7 +15,7 @@ function App() {
                   SmartCharge AI
                 </h1>
                 <p className="text-sm text-gray-400">
-                  Intelligent EV Charging Optimizer powered by IBM watsonx
+                  Intelligent EV Charging Optimizer powered by IBM Bob
                 </p>
               </div>
             </div>
@@ -45,7 +45,7 @@ function App() {
               SmartCharge AI - Optimizing EV charging with renewable energy and cost savings
             </p>
             <p className="mt-2 text-xs text-gray-500">
-              Powered by IBM watsonx • Built for the IBM watsonx Challenge
+              Powered by IBM Bob • Built for the IBM Bob Hackathon Challenge
             </p>
           </div>
         </div>

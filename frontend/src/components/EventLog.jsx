@@ -1,14 +1,20 @@
 import React, { useEffect, useRef } from 'react';
 
 const EventLog = ({ decisions = [] }) => {
-  const logEndRef = useRef(null);
+  // Use a ref for the scrollable container instead of the bottom element
+  const scrollContainerRef = useRef(null);
 
   // Ensure decisions is always an array
   const decisionsArray = Array.isArray(decisions) ? decisions : [];
 
   useEffect(() => {
-    // Auto-scroll to bottom when new decisions arrive
-    logEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    // Scroll ONLY the container box, not the entire webpage
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTo({
+        top: scrollContainerRef.current.scrollHeight,
+        behavior: 'smooth'
+      });
+    }
   }, [decisionsArray]);
 
   const getModeColor = (mode) => {
@@ -66,7 +72,11 @@ const EventLog = ({ decisions = [] }) => {
         </span>
       </h2>
 
-      <div className="space-y-2 max-h-96 overflow-y-auto pr-2 custom-scrollbar">
+      {/* Attach the ref to the scrollable container here */}
+      <div 
+        ref={scrollContainerRef} 
+        className="space-y-2 max-h-96 overflow-y-auto pr-2 custom-scrollbar"
+      >
         {decisionsArray.length === 0 ? (
           <div className="text-center text-gray-500 py-8">
             <p>No decisions yet</p>
@@ -100,7 +110,7 @@ const EventLog = ({ decisions = [] }) => {
                   {(decision.confidence * 100).toFixed(0)}%
                 </span>
               </span>
-              {decision.estimated_cost && (
+              {decision.estimated_cost !== undefined && (
                 <span>
                   Cost: <span className="text-green-400 font-semibold">
                     ${decision.estimated_cost.toFixed(2)}
@@ -111,10 +121,9 @@ const EventLog = ({ decisions = [] }) => {
           </div>
           ))
         )}
-        <div ref={logEndRef} />
       </div>
 
-      <style jsx>{`
+      <style>{`
         .custom-scrollbar::-webkit-scrollbar {
           width: 6px;
         }
@@ -135,5 +144,3 @@ const EventLog = ({ decisions = [] }) => {
 };
 
 export default EventLog;
-
-// Made with Bob

@@ -139,40 +139,18 @@ class TelemetrySimulator:
         
         # Build telemetry payload
         telemetry = {
-            "timestamp": datetime.utcnow().isoformat() + "Z",
-            "iteration": self.iteration,
-            "time_of_day_factor": round(time_factor, 3),
-            "simulated_hour": round(time_factor * 24, 1),
-            
-            "solar": {
-                "generation_kw": round(solar_kw, 2),
-                "max_capacity_kw": self.solar_max_kw,
-                "utilization_percent": round((solar_kw / self.solar_max_kw) * 100, 1)
-            },
-            
-            "grid": {
-                "price_per_kwh": grid_price,
-                "draw_kw": round(grid_draw_kw, 2),
-                "status": "PEAK" if grid_price > 0.25 else "NORMAL"
-            },
-            
-            "ev_battery": {
-                "soc_percent": round(self.battery_soc_percent, 1),
-                "capacity_kwh": self.battery_capacity_kwh,
-                "charging_rate_kw": round(self.charging_rate_kw, 2),
-                "estimated_time_to_full_hours": self._calculate_time_to_full()
-            },
-            
-            "charging": {
-                "mode": self.charging_mode,
-                "power_source": "SOLAR" if solar_kw > self.charging_rate_kw else "GRID",
-                "cost_per_hour": round(grid_draw_kw * grid_price, 3)
-            },
-            
+            "solar_generation_kw": round(solar_kw, 2),
+            "solar_capacity_kw": self.solar_max_kw,
+            "grid_price_per_kwh": grid_price,
+            "battery_soc_percent": round(self.battery_soc_percent, 1),
+            "battery_capacity_kwh": self.battery_capacity_kwh,
+            "charging_power_kw": round(self.charging_rate_kw, 2),
+            "charging_mode": self.charging_mode,
             "metadata": {
                 "simulator_version": "1.0.0",
-                "location": "San Francisco, CA",
-                "timezone": "America/Los_Angeles"
+                "iteration": self.iteration,
+                "time_of_day_factor": round(time_factor, 3),
+                "grid_status": "PEAK" if grid_price > 0.25 else "NORMAL"
             }
         }
         
@@ -197,7 +175,7 @@ class TelemetrySimulator:
                 timeout=5
             )
             
-            if response.status_code == 200:
+            if response.status_code in [200, 201]:
                 logger.debug(f"Telemetry sent successfully: {response.json()}")
                 return True
             else:
@@ -259,10 +237,10 @@ class TelemetrySimulator:
                 # Log key metrics
                 logger.info(
                     f"Iteration {self.iteration} | "
-                    f"Solar: {telemetry['solar']['generation_kw']}kW | "
-                    f"Grid: ${telemetry['grid']['price_per_kwh']}/kWh | "
-                    f"Battery: {telemetry['ev_battery']['soc_percent']}% | "
-                    f"Mode: {telemetry['charging']['mode']} | "
+                    f"Solar: {telemetry['solar_generation_kw']}kW | "
+                    f"Grid: ${telemetry['grid_price_per_kwh']}/kWh | "
+                    f"Battery: {telemetry['battery_soc_percent']}% | "
+                    f"Mode: {telemetry['charging_mode']} | "
                     f"API: {'✓' if success else '✗'}"
                 )
                 

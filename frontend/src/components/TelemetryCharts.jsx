@@ -19,22 +19,30 @@ const TelemetryCharts = ({ history }) => {
       <div className="card">
         <h2 className="card-title">Telemetry History</h2>
         <div className="text-center text-gray-400 py-8">
-          No historical data available...
+          Waiting for historical data...
         </div>
       </div>
     );
   }
 
   // Prepare data for charts
-  const chartData = historyArray.slice(-50).map((item) => ({
-    time: new Date(item.timestamp).toLocaleTimeString('en-US', {
-      hour: '2-digit',
-      minute: '2-digit',
-    }),
-    solar: item.solar_generation_kw,
-    grid: item.grid_price_per_kwh,
-    battery: item.battery_soc_percent,
-  }));
+  // 1. Reverse the array so time flows left-to-right (oldest to newest)
+  // 2. Slice to keep the last 50 points
+  // 3. Map the data safely handling both flat and nested JSON responses
+  const chartData = [...historyArray]
+    .reverse()
+    .slice(-50)
+    .map((item) => ({
+      // Add seconds so the 5-second simulator ticks actually show up!
+      time: new Date(item.timestamp).toLocaleTimeString('en-US', {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+      }),
+      solar: item.solar?.generation_kw ?? item.solar_generation_kw ?? 0,
+      grid: item.grid?.price_per_kwh ?? item.grid_price_per_kwh ?? 0,
+      battery: item.ev_battery?.soc_percent ?? item.battery_soc_percent ?? 0,
+    }));
 
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
@@ -160,5 +168,3 @@ const TelemetryCharts = ({ history }) => {
 };
 
 export default TelemetryCharts;
-
-// Made with Bob
